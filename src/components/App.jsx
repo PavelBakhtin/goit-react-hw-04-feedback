@@ -1,16 +1,11 @@
+import { FeedbackWidget } from "./FeedbackWidget/FeedbackWidget";
+import { StyledApp } from "./App.styles";
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <StyledApp>
+      <FeedbackWidget>
+       
+      </FeedbackWidget>
+    </StyledApp>
   );
 };
