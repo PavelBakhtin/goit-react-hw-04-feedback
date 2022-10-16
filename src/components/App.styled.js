@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const StyledApp = styled.div`
-    width: 300px;
+    width: 350px;
     border: 1px solid #007dc1;
     margin: auto;
     text-align: left;
