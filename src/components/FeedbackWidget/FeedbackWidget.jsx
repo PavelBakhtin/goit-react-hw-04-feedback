@@ -1,62 +1,37 @@
 import  React  from "react";
-
-export class FeedbackWidget extends React.Component {
-    state = {
-        good: 0,
-        neutral: 0,
-        bad: 0
-    }
-    handleBad = () => {
-        this.setState(prevState => (
-           {
-                bad: prevState.bad +1,
-            }
-        ))
-    }
-     handleNeutral = () => {
-        this.setState(prevState => (
-            {
-                neutral: prevState.neutral + 1,
-            }
-        ))
-    }
-    handleGood = () => {
-        this.setState(prevState => (
-            {
-                good: prevState.good + 1,
-                
-            }
-        ))
-    }
-   
-    countTotalFeedback() {
-        return this.state.bad + this.state.neutral + this.state.good
-        
-    }
-    countPositiveFeedbackPercentage() {
-      return Math.round(100 / this.countTotalFeedback() * this.state.good)+'%'
-    }
-    render() {
-        return (
-            <div>
-                <div>
-                    <h2>Please leave feedback</h2>
-                    <button type="button" onClick={this.handleGood}>Good</button>
-                    <button type="button" onClick={this.handleNeutral}>Neutral</button>
-                    <button type="button" onClick={this.handleBad}>Bad</button>
-                </div>
-                <div>
-                    <h2>Statistics</h2>
-                    {this.countTotalFeedback() === 0 ? <span>There is no feedback</span> : <><p>Good: { this.state.good }</p>
-                    <p>Neutral: { this.state.neutral }</p>
-                    <p>Bad: { this.state.bad }</p>
-                    <p>Total: { this.countTotalFeedback()}</p>
-                    <p>Positive feedback: {this.countPositiveFeedbackPercentage()}</p></>}
-                </div>                
-            </div>
+import PropTypes from 'prop-types'; 
+import { FeedbackOptions } from "./FeedbackOptions";
+import { Section } from "./Section";
+import { NotificationMessage } from "./Notification";
+import { Statistics } from "./Statistics";
+export const FeedbackWidget = ({options, onLeaveFeedback, countTotalFeedback, countPositiveFeedbackPercentage}) => {
+      return (
+            <>
+                <Section title ={'Please leave feedback'}>
+                    <FeedbackOptions options ={Object.keys(options)} onLeaveFeedback={onLeaveFeedback} />
+                </Section>
+                <Section title={'Statistics'}>
+                    {countTotalFeedback === 0 ? <NotificationMessage message={'There is no feedback'}/> : 
+                    <Statistics
+                    good={options.good} 
+                    neutral={options.neutral} 
+                    bad={options.bad} 
+                    total={countTotalFeedback} 
+                    positivePercentage={countPositiveFeedbackPercentage}
+                    />}
+                </Section>                
+            </>
       )
-    }
+    
 
+
+}
+
+FeedbackWidget.propTypes = {
+    options: PropTypes.object, 
+    onLeaveFeedback: PropTypes.func, 
+    countTotalFeedback: PropTypes.number, 
+    countPositiveFeedbackPercentage: PropTypes.number
 
 }
      
