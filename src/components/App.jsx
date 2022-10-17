@@ -8,28 +8,11 @@ export class App extends Component {
     neutral: 0,
     bad: 0,
 }
-handleOption = () => (value) => {
-     switch (value) {
-        case 'good' :
-            this.setState((prevState) => (
+  handleOption = () => (value) => {
+      this.setState((prevState) => (
             {
-                good: prevState.good + 1,
+                [value]: prevState[value] + 1,
             }))
-        break;
-        case 'neutral':         
-            this.setState((prevState) => (
-            {
-                neutral: prevState.neutral + 1,
-            }))
-        break;
-        case 'bad': 
-            this.setState(prevState => (
-            {
-                bad: prevState.bad + 1,
-                
-            }))
-        break;
-        }
     }
 
 countTotalFeedback() {
