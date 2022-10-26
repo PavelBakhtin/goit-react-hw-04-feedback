@@ -1,37 +1,46 @@
 import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget';
 import { StyledApp } from './App.styled';
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
-  handleOption = () => value => {
-    this.setState(prevState => ({
-      [value]: prevState[value] + 1,
-    }));
-  };
+export function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const options = { good, neutral, bad };
 
-  countTotalFeedback() {
-    return this.state.bad + this.state.neutral + this.state.good;
+  function handleOption(value) {
+    switch (value) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+      default:
+        return;
+    }
   }
-  countPositiveFeedbackPercentage() {
-    let total = this.countTotalFeedback();
 
-    return Math.round((100 / total) * this.state.good);
+  function countTotalFeedback() {
+    return options.bad + options.neutral + options.good;
   }
-  render() {
-    return (
-      <StyledApp>
-        <FeedbackWidget
-          options={this.state}
-          onLeaveFeedback={this.handleOption()}
-          countTotalFeedback={this.countTotalFeedback()}
-          countPositiveFeedbackPercentage={this.countPositiveFeedbackPercentage()}
-        ></FeedbackWidget>
-      </StyledApp>
-    );
+  function countPositiveFeedbackPercentage() {
+    let total = countTotalFeedback();
+
+    return Math.round((100 / total) * options.good);
   }
+  console.log(countTotalFeedback());
+  return (
+    <StyledApp>
+      <FeedbackWidget
+        options={options}
+        onLeaveFeedback={handleOption}
+        countTotalFeedback={countTotalFeedback()}
+        countPositiveFeedbackPercentage={countPositiveFeedbackPercentage()}
+      ></FeedbackWidget>
+    </StyledApp>
+  );
 }
